@@ -1,8 +1,6 @@
 package net.ausiasmarch.debesto.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,8 +29,9 @@ public class TasacionEntity {
     private Boolean asignado;
     private Double precio;
 
-    @OneToMany(mappedBy = "tasacion", fetch = FetchType.LAZY)
-    private final List<CocheEntity> coches;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_coche")
+    private CocheEntity coche;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sucursal")
@@ -43,16 +41,7 @@ public class TasacionEntity {
     @JoinColumn(name = "id_usuario")
     private SucursalEntity usuario;
 
-    public TasacionEntity() {
-
-        this.coches = new ArrayList<>();
-    }
-
-    public TasacionEntity(Long id) {
-
-        this.coches = new ArrayList<>();
-        this.id = id; //Ojo, no se si se deberia dejar aqui este this.id
-    }
+    
 
     public Long getId() {
         return id;
@@ -86,10 +75,6 @@ public class TasacionEntity {
         this.precio = precio;
     }
 
-    public List<CocheEntity> getCoches() {
-        return coches;
-    }
-
     public SucursalEntity getSucursal() {
         return sucursal;
     }
@@ -104,6 +89,14 @@ public class TasacionEntity {
 
     public void setUsuario(SucursalEntity usuario) {
         this.usuario = usuario;
+    }
+
+    public CocheEntity getCoche() {
+        return coche;
+    }
+
+    public void setCoche(CocheEntity coche) {
+        this.coche = coche;
     }
 
     

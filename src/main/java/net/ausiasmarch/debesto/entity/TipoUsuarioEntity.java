@@ -31,10 +31,9 @@ public class TipoUsuarioEntity {
         this.usuarios = new ArrayList<>();
     }
 
-    public TipoUsuarioEntity(Long id, String tipo) {
-        this.id = id;
-        this.tipo = tipo;
+    public TipoUsuarioEntity(Long id) {
         this.usuarios = new ArrayList<>();
+        this.id = id;
     }
 
     public Long getId() {
