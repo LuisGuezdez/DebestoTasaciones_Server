@@ -31,10 +31,12 @@ public class SucursalEntity {
     private final List<UsuarioEntity> usuarios;
 
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
-    private final List<TasacionEntity> tasaciones;
+    private final List<CompraEntity> compras;
 
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
-    private final List<CompraEntity> compras;
+    private final List<TasacionEntity> tasaciones;
+
+    
 
     public SucursalEntity() {
         this.usuarios = new ArrayList<>();

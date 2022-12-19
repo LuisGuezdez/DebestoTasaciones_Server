@@ -1,5 +1,6 @@
 package net.ausiasmarch.debesto.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,7 +24,7 @@ import javax.persistence.Table;
 @Table(name = "usuario")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
-public class UsuarioEntity {
+public class UsuarioEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +39,11 @@ public class UsuarioEntity {
     private String contraseña;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private final List<CompraEntity> coches;
+    private List<CocheEntity> coches;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_tipo-usuario")
-    private TipoUsuarioEntity tipoUsuario;
+    @JoinColumn(name = "id_tipousuario")
+    private TipousuarioEntity tipousuario;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sucursal")
@@ -104,12 +106,12 @@ public class UsuarioEntity {
         this.contraseña = contraseña;
     }
 
-    public TipoUsuarioEntity getTipoUsuario() {
-        return tipoUsuario;
+    public TipousuarioEntity getTipousuario() {
+        return tipousuario;
     }
 
-    public void setTipoUsuario(TipoUsuarioEntity tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setTipousuario(TipousuarioEntity tipoUsuario) {
+        this.tipousuario = tipoUsuario;
     }
 
     public SucursalEntity getSucursal() {
@@ -124,4 +126,8 @@ public class UsuarioEntity {
         return coches.size();
     }
     
+    @PreRemove
+    public void nullify() {
+        this.coches.forEach(c -> c.setUsuario(null));
+    }
 }

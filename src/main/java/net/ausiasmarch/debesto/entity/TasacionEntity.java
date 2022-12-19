@@ -27,7 +27,7 @@ public class TasacionEntity {
     private LocalDateTime reserva;
 
     private Boolean asignado;
-    private Double precio;
+    private Double valorcoche;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_coche")
@@ -39,7 +39,7 @@ public class TasacionEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
-    private SucursalEntity usuario;
+    private UsuarioEntity usuario;
 
     
 
@@ -67,12 +67,12 @@ public class TasacionEntity {
         this.asignado = asignado;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public Double getvalorcoche() {
+        return valorcoche;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setvalorcoche(Double valorcoche) {
+        this.valorcoche = valorcoche;
     }
 
     public SucursalEntity getSucursal() {
@@ -83,11 +83,11 @@ public class TasacionEntity {
         this.sucursal = sucursal;
     }
 
-    public SucursalEntity getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(SucursalEntity usuario) {
+    public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
 

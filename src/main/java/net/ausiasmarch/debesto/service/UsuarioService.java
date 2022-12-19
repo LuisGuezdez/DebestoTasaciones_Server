@@ -41,7 +41,7 @@ public class UsuarioService {
         if (oUsuarioRepository.existsByUsername(oUsuarioEntity.getUsername())) {
             throw new ValidationException("el campo username está repetido");
         }
-        oTipoUsuarioService.validate(oUsuarioEntity.getTipoUsuario().getId());
+        oTipoUsuarioService.validate(oUsuarioEntity.getTipousuario().getId());
         oSucursalService.validate(oUsuarioEntity.getSucursal().getId());
     }
 

@@ -30,7 +30,7 @@ public class CocheEntity {
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
-    private SucursalEntity usuario;
+    private UsuarioEntity usuario;
 
     public Long getId() {
         return id;
@@ -80,13 +80,12 @@ public class CocheEntity {
         this.año = año;
     }
 
-    public SucursalEntity getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(SucursalEntity usuario) {
+    public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
-
     
 }

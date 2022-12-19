@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.ausiasmarch.debesto.exception.ResourceNotFoundException;
-import net.ausiasmarch.debesto.repository.TipoUsuarioRepository;
+import net.ausiasmarch.debesto.repository.TipousuarioRepository;
 
 @Service
 public class TipoUsuarioService {
 
     @Autowired
-    TipoUsuarioRepository oTipoUsuarioRepository;
+    TipousuarioRepository oTipoUsuarioRepository;
 
     public void validate(Long id) {
         if (!oTipoUsuarioRepository.existsById(id)) {
