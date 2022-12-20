@@ -12,12 +12,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
+
 
 @Entity
 @Table(name = "tipousuario")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class TipousuarioEntity implements Serializable {
+public class TipousuarioEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

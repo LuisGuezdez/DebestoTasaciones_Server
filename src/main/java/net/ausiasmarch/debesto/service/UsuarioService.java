@@ -24,6 +24,9 @@ public class UsuarioService {
     @Autowired
     SucursalService oSucursalService;
 
+    @Autowired
+    AuthService oAuthService;
+
     private final String DEBESTO_DEFAULT_PASSWORD = "password";
 
 
@@ -46,11 +49,13 @@ public class UsuarioService {
     }
 
     public UsuarioEntity get(Long id) {
+        oAuthService.OnlyAdminsOrOwnUsersData(id);
         return oUsuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario with id: " + id + " not found"));
     }
 
     public Page<UsuarioEntity> getPage(Pageable oPageable, String strFilter) {
+        oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
         if (strFilter == null || strFilter.length() == 0) {
             return oUsuarioRepository.findAll(oPageable);
@@ -60,10 +65,12 @@ public class UsuarioService {
     }
 
     public Long count() {
+        oAuthService.OnlyAdmins();
         return oUsuarioRepository.count();
     }
 
     public Long update(UsuarioEntity oUsuarioEntity) {
+        oAuthService.OnlyAdminsOrOwnUsersData(oUsuarioEntity.getId());
         validate(oUsuarioEntity.getId());
         UsuarioEntity oOldUsuarioEntity=oUsuarioRepository.getById(oUsuarioEntity.getId());
         oUsuarioEntity.setContraseña(oOldUsuarioEntity.getContraseña());
@@ -71,6 +78,7 @@ public class UsuarioService {
     }
 
     public Long create(UsuarioEntity oNewUsuarioEntity) {
+        oAuthService.OnlyAdmins();
         validate(oNewUsuarioEntity);
         oNewUsuarioEntity.setId(0L);
         oNewUsuarioEntity.setContraseña(DEBESTO_DEFAULT_PASSWORD);

@@ -1,6 +1,5 @@
 package net.ausiasmarch.debesto.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,8 +109,8 @@ public class UsuarioEntity{
         return tipousuario;
     }
 
-    public void setTipousuario(TipousuarioEntity tipoUsuario) {
-        this.tipousuario = tipoUsuario;
+    public void setTipousuario(TipousuarioEntity tipousuario) {
+        this.tipousuario = tipousuario;
     }
 
     public SucursalEntity getSucursal() {
