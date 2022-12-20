@@ -49,7 +49,7 @@ public class UsuarioService {
     }
 
     public UsuarioEntity get(Long id) {
-        oAuthService.OnlyAdminsOrOwnUsersData(id);
+        //oAuthService.OnlyAdminsOrOwnUsersData(id);
         return oUsuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario with id: " + id + " not found"));
     }
