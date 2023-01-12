@@ -18,12 +18,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "usuario")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 
-public class UsuarioEntity{
+public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +32,7 @@ public class UsuarioEntity{
     private String apellidos;
     private String email;
     private String username;
-    
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String contraseña;
 
@@ -124,7 +123,7 @@ public class UsuarioEntity{
     public int getCoches() {
         return coches.size();
     }
-    
+
     @PreRemove
     public void nullify() {
         this.coches.forEach(c -> c.setUsuario(null));

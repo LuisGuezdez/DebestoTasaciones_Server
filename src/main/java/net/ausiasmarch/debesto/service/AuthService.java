@@ -74,15 +74,15 @@ public class AuthService {
         }
     }
 
-    public boolean isAdmin() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity != null) {
-            if (oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.ADMIN)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean isAdmin() {
+    //     UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
+    //     if (oUsuarioSessionEntity != null) {
+    //         if (oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.ADMIN)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public void OnlyAdmins() {
         UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");

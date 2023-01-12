@@ -59,4 +59,9 @@ public class UsuarioController {
     public ResponseEntity<Long> delete(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<Long>(oUsuarioService.delete(id), HttpStatus.OK);
     }
+
+    @PostMapping("/generate/{amount}")
+    public ResponseEntity<Long> generateUsers(@PathVariable(value = "amount") Integer amount) {
+        return new ResponseEntity<>(oUsuarioService.generateUsers(amount), HttpStatus.OK);
+    }
 }

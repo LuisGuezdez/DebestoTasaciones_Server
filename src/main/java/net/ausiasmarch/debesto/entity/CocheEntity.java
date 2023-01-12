@@ -26,7 +26,7 @@ public class CocheEntity {
     private String modelo;
     private String combustible;
     private int kms;
-    private Year año;
+    private int anyo;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
@@ -72,12 +72,12 @@ public class CocheEntity {
         this.kms = kms;
     }
 
-    public Year getAño() {
-        return año;
+    public int getAnyo() {
+        return anyo;
     }
 
-    public void setAño(Year año) {
-        this.año = año;
+    public void setAnyo(int anyo) {
+        this.anyo = anyo;
     }
 
     public UsuarioEntity getUsuario() {
