@@ -149,7 +149,14 @@ public class UsuarioService {
             oSucursalRepository.findById((long) 3)
                     .ifPresent(oUsuarioEntity::setSucursal);
         }
-        return oUsuarioEntity;
+
+        if (oUsuarioRepository.existsByUsername(oUsuarioEntity.getUsername())) {
+            throw new ValidationException("The username created already exists");
+        }
+        else{
+            return oUsuarioEntity;
+        }
+        
     }
 
     private String generateName() {
