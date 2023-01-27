@@ -1,10 +1,11 @@
 package net.ausiasmarch.debesto.service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 import net.ausiasmarch.debesto.bean.UsuarioBean;
 import net.ausiasmarch.debesto.entity.UsuarioEntity;
 import net.ausiasmarch.debesto.exception.UnauthorizedException;
+import net.ausiasmarch.debesto.helper.JwtHelper;
 import net.ausiasmarch.debesto.helper.TipoUsuarioHelper;
 import net.ausiasmarch.debesto.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,39 +21,31 @@ public class AuthService {
     @Autowired
     UsuarioRepository oUsuarioRepository;
 
-    public UsuarioEntity login(@RequestBody UsuarioBean oUsuarioBean) {
+    @Autowired
+    private HttpServletRequest oRequest;
+
+
+    public String login(@RequestBody UsuarioBean oUsuarioBean) {
         if (oUsuarioBean.getContraseña() != null) {
             UsuarioEntity oUsuarioEntity = oUsuarioRepository.findByUsernameAndContraseña(oUsuarioBean.getUsername(), oUsuarioBean.getContraseña());
             if (oUsuarioEntity != null) {
-                oHttpSession.setAttribute("usuario", oUsuarioEntity);
-                return oUsuarioEntity;
+                return JwtHelper.generateJWT(oUsuarioBean.getUsername());
             } else {
-                throw new UnauthorizedException("username or password incorrect");
+                throw new UnauthorizedException("login or password incorrect");
             }
         } else {
             throw new UnauthorizedException("wrong password");
         }
     }
 
-    public void logout() {
-        oHttpSession.invalidate();
-    }
-
     public UsuarioEntity check() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity != null) {
-            return oUsuarioSessionEntity;
+        System.out.println(oRequest.getParameter("name"));
+        String strUsuarioName = (String) oRequest.getAttribute("name");
+        if (strUsuarioName != null) {
+            UsuarioEntity oUsuarioEntity = oUsuarioRepository.findByUsername(strUsuarioName);
+            return oUsuarioEntity;
         } else {
-            throw new UnauthorizedException("no active session");
-        }
-    }
-
-    public boolean isLoggedIn() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
-        if (oUsuarioSessionEntity == null) {
-            return false;
-        } else {
-            return true;
+            throw new UnauthorizedException("No active session");
         }
     }
 
@@ -85,7 +78,8 @@ public class AuthService {
     // }
 
     public void OnlyAdmins() {
-        UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");
+        //System.out.println(oRequest.getAttribute("username"));
+        UsuarioEntity oUsuarioSessionEntity = oUsuarioRepository.findByUsername((String) oRequest.getAttribute("username"));
         if (oUsuarioSessionEntity == null) {
             throw new UnauthorizedException("this request is only allowed to admin role");
         } else {
