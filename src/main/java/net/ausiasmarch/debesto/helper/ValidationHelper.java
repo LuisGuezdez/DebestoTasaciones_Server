@@ -3,6 +3,8 @@ package net.ausiasmarch.debesto.helper;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+
 import net.ausiasmarch.debesto.exception.ValidationException;
 
 public class ValidationHelper {
@@ -94,8 +96,8 @@ public class ValidationHelper {
     }
 
     public static void validateDate(LocalDate oDate, LocalDate oDateStart, LocalDate oDateEnd, String error) {
-        Long lDur1 = Duration.between(oDateStart, oDate).toMillis();
-        Long lDur2 = Duration.between(oDate, oDateEnd).toMillis();
+        Long lDur1 = Period.between(oDateStart, oDate).toTotalMonths();
+        Long lDur2 = Period.between(oDate, oDateEnd).toTotalMonths();
         if (lDur1 > 0L && lDur2 > 0L) {
         } else {
             throw new ValidationException("error de validación: " + error);

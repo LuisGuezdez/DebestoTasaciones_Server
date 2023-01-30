@@ -34,9 +34,9 @@ public class CocheService {
         ValidationHelper.validateStringLength(oCocheEntity.getMarca(), 2, 20, "campo marca de Coche (el campo debe tener longitud de 2 a 20 caracteres)");
         ValidationHelper.validateStringLength(oCocheEntity.getModelo(), 2, 20, "campo modelo de Coche (el campo debe tener longitud de 2 a 20 caracteres)");
         ValidationHelper.validateRange(oCocheEntity.getKms(), 0, 1000000, "campo kms de Coche (el campo debe estar entre 0 y 1.000.000)");
-        ValidationHelper.validateDate(LocalDate.of(oCocheEntity.getAnyo(), 0, 0), LocalDate.of(1900, 0, 0), LocalDate.now(), "campo fecha de Sucursal (el campo debe estar entre el año 1900 y el año actual");
+        ValidationHelper.validateDate(LocalDate.of(oCocheEntity.getAnyo(), 1, 1), LocalDate.of(1900, 1, 1), LocalDate.now(), "campo fecha de Sucursal (el campo debe estar entre el año 1900 y el año actual");
         String comb = oCocheEntity.getCombustible();
-        if (!comb.equalsIgnoreCase("diesel") || !comb.equalsIgnoreCase("gasolina") || !comb.equalsIgnoreCase("gas")) {
+        if (!comb.equalsIgnoreCase("diesel") && !comb.equalsIgnoreCase("gasolina") && !comb.equalsIgnoreCase("gas")) {
             throw new ValidationException("error de validación: campo combustible debe ser diesel, gasolina o gas");
         }
     }
