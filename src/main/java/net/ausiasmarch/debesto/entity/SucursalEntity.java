@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -101,5 +102,12 @@ public class SucursalEntity {
 
     public int getCompras() {
         return compras.size();
+    }
+
+    @PreRemove
+    public void nullify() {
+        this.compras.forEach(c -> c.setSucursal(null));
+        this.tasaciones.forEach(c -> c.setSucursal(null));
+        this.usuarios.forEach(c -> c.setSucursal(null));
     }
 }

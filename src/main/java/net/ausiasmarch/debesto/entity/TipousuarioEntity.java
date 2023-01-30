@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -47,6 +48,11 @@ public class TipousuarioEntity{
 
     public int getUsuarios() {
         return usuarios.size();
+    }
+
+    @PreRemove
+    public void nullify() {
+        this.usuarios.forEach(c -> c.setTipousuario(null));
     }
     
 }

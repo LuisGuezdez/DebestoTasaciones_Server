@@ -1,6 +1,8 @@
 package net.ausiasmarch.debesto.entity;
 
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,6 +35,18 @@ public class CocheEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private UsuarioEntity usuario;
+
+    @OneToMany(mappedBy = "coche", fetch = FetchType.LAZY)
+    private final List<TasacionEntity> tasaciones;
+
+    public CocheEntity() {
+        this.tasaciones = new ArrayList<>();
+    }
+
+    public CocheEntity(Long id) {
+        this.tasaciones = new ArrayList<>();
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -87,5 +103,13 @@ public class CocheEntity {
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
-    
+
+    public int getTasaciones() {
+        return tasaciones.size();
+    }
+
+    @PreRemove
+    public void nullify() {
+        this.tasaciones.forEach(c -> c.setCoche(null));
+    }
 }

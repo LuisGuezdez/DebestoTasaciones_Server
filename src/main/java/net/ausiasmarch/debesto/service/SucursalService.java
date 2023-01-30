@@ -64,7 +64,7 @@ public class SucursalService {
          return oSucursalRepository.save(oSucursalEntity).getId();
      }
 
-     public Long create(SucursalEntity oNewSucursalEntity) {
+    public Long create(SucursalEntity oNewSucursalEntity) {
         //oAuthService.OnlyAdmins();
         validate(oNewSucursalEntity);
         oNewSucursalEntity.setId(0L);

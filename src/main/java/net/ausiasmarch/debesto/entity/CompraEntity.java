@@ -84,6 +84,4 @@ public class CompraEntity {
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
-
-    
 }
