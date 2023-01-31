@@ -1,5 +1,6 @@
 package net.ausiasmarch.debesto.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ public class CompraEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date fecha;
+    private LocalDate fecha;
     private Double precio;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -45,11 +46,11 @@ public class CompraEntity {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

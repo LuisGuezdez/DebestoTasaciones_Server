@@ -8,11 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.ausiasmarch.debesto.entity.CocheEntity;
+import net.ausiasmarch.debesto.entity.UsuarioEntity;
 import net.ausiasmarch.debesto.exception.ResourceNotFoundException;
 import net.ausiasmarch.debesto.exception.ResourceNotModifiedException;
 import net.ausiasmarch.debesto.exception.ValidationException;
+import net.ausiasmarch.debesto.helper.TipoUsuarioHelper;
 import net.ausiasmarch.debesto.helper.ValidationHelper;
 import net.ausiasmarch.debesto.repository.CocheRepository;
+import net.ausiasmarch.debesto.repository.UsuarioRepository;
 
 @Service
 public class CocheService {
@@ -21,7 +24,13 @@ public class CocheService {
     CocheRepository oCocheRepository;
 
     @Autowired
+    UsuarioRepository oUsuarioRepository;
+
+    @Autowired
     AuthService oAuthService;
+
+    @Autowired
+    UsuarioService oUsuarioService;
 
     public void validate(Long id) {
         if (!oCocheRepository.existsById(id)) {
@@ -34,17 +43,21 @@ public class CocheService {
         ValidationHelper.validateStringLength(oCocheEntity.getMarca(), 2, 20, "campo marca de Coche (el campo debe tener longitud de 2 a 20 caracteres)");
         ValidationHelper.validateStringLength(oCocheEntity.getModelo(), 2, 20, "campo modelo de Coche (el campo debe tener longitud de 2 a 20 caracteres)");
         ValidationHelper.validateRange(oCocheEntity.getKms(), 0, 1000000, "campo kms de Coche (el campo debe estar entre 0 y 1.000.000)");
-        ValidationHelper.validateDate(LocalDate.of(oCocheEntity.getAnyo(), 1, 1), LocalDate.of(1900, 1, 1), LocalDate.now(), "campo fecha de Sucursal (el campo debe estar entre el año 1900 y el año actual");
+        ValidationHelper.validateDate(LocalDate.of(oCocheEntity.getAnyo(), 1, 1), LocalDate.of(1900, 1, 1), LocalDate.now(), "campo año de Coche (el campo debe estar entre el año 1900 y el año actual");
         String comb = oCocheEntity.getCombustible();
         if (!comb.equalsIgnoreCase("diesel") && !comb.equalsIgnoreCase("gasolina") && !comb.equalsIgnoreCase("gas")) {
             throw new ValidationException("error de validación: campo combustible debe ser diesel, gasolina o gas");
         }
+        UsuarioEntity usuario  = oUsuarioService.get(oCocheEntity.getUsuario().getId());
+        if (!usuario.getTipousuario().getId().equals(TipoUsuarioHelper.CLIENTE)) {
+            throw new ValidationException("error de validación: el usuario debe ser un cliente");  
+        } 
     }
 
     public CocheEntity get(Long id) {
         //oAuthService.OnlyAdminsOrOwnUsersData(id);
         return oCocheRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sucursal with id: " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Coche with id: " + id + " not found"));
     }
 
     public Long count() {
@@ -65,7 +78,7 @@ public class CocheService {
 
     public Long update(CocheEntity oCocheEntity) {
         // oAuthService.OnlyAdminsOrOwnUsersData(oCocheEntity.getId());
-         validate(oCocheEntity.getId());
+         validate(oCocheEntity);
          return oCocheRepository.save(oCocheEntity).getId();
      }
 

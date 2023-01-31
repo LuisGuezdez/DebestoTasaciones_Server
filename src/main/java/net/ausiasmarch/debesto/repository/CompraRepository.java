@@ -10,4 +10,5 @@ public interface CompraRepository extends JpaRepository<CompraEntity, Long>{
     
     Page<CompraEntity> findByUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContainingOrCocheMarcaIgnoreCaseContainingOrCocheModeloIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrSucursalLocalidadIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos,String strFilterMarca, String strFilterModelo, String strFilterSucNombre, String strFilterLocalidad, Pageable oPageable);
 
+    boolean existsByCocheId(Long id);
 }

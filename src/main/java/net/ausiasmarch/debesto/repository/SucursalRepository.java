@@ -10,6 +10,8 @@ public interface SucursalRepository extends JpaRepository<SucursalEntity, Long> 
  
     Page<SucursalEntity> findByNombreIgnoreCaseContainingOrLocalidadIgnoreCaseContaining(String strFilterNombre, String strFilterLocalidad, Pageable oPageable);
 
+    SucursalEntity findByNombreIgnoreCaseContaining(String nombre);
+
     boolean existsByNombre(String nombre);
 
 }
