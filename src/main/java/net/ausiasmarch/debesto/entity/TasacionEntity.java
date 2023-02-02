@@ -26,7 +26,6 @@ public class TasacionEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime reserva;
 
-    private Boolean asignado;
     private Double valorcoche;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -57,14 +56,6 @@ public class TasacionEntity {
 
     public void setReserva(LocalDateTime reserva) {
         this.reserva = reserva;
-    }
-
-    public Boolean getAsignado() {
-        return asignado;
-    }
-
-    public void setAsignado(Boolean asignado) {
-        this.asignado = asignado;
     }
 
     public Double getvalorcoche() {
