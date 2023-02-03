@@ -81,7 +81,7 @@ public class UsuarioService {
         if (strFilter == null || strFilter.length() == 0) {
             return oUsuarioRepository.findAll(oPageable);
         }else{
-            return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContaining(strFilter, strFilter, strFilter, oPageable);
+            return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(strFilter,strFilter,strFilter,strFilter, strFilter, oPageable);
         }
     }
 
@@ -119,10 +119,12 @@ public class UsuarioService {
     public Long generateUsers(Integer amount) {
         //oAuthService.OnlyAdmins();
         List<UsuarioEntity> userList = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
+        int i = 0;
+        while(i < amount) {
             UsuarioEntity oUsuarioEntity = generateRandomUser();
             oUsuarioRepository.save(oUsuarioEntity);
             userList.add(oUsuarioEntity);
+            i++;
         }
         return oUsuarioRepository.count();
     }
@@ -131,7 +133,7 @@ public class UsuarioService {
         UsuarioEntity oUsuarioEntity = new UsuarioEntity();
         oUsuarioEntity.setNombre(generateName());
         oUsuarioEntity.setApellidos(generateSurname() + " " + generateSurname());
-        oUsuarioEntity.setUsername(oUsuarioEntity.getNombre().substring(0, 2) + oUsuarioEntity.getApellidos().substring(0, 2));
+        oUsuarioEntity.setUsername(oUsuarioEntity.getNombre().substring(0, 2) + oUsuarioEntity.getApellidos().substring(0, 2) + RandomHelper.getRandomInt(0, 1000));
         oUsuarioEntity.setContraseña(DEBESTO_DEFAULT_PASSWORD);
         oUsuarioEntity.setEmail(oUsuarioEntity.getUsername() + "@debesto.com");
         if (RandomHelper.getRandomInt(1, 2) == 1) {

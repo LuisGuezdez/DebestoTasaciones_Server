@@ -72,7 +72,7 @@ public class CocheService {
         if (strFilter == null || strFilter.length() == 0) {
             return oCocheRepository.findAll(oPageable);
         }else{
-            return oCocheRepository.findByMarcaIgnoreCaseContainingOrModeloIgnoreCaseContaining(strFilter, strFilter, oPageable);
+            return oCocheRepository.findByMarcaIgnoreCaseContainingOrModeloIgnoreCaseContainingOrUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContaining(strFilter, strFilter, strFilter, strFilter, oPageable);
         }
     }
 

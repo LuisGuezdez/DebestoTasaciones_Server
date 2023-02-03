@@ -8,6 +8,6 @@ import net.ausiasmarch.debesto.entity.CocheEntity;
 
 public interface CocheRepository extends JpaRepository<CocheEntity, Long> {
     
-    Page<CocheEntity> findByMarcaIgnoreCaseContainingOrModeloIgnoreCaseContaining(String strFilterMarca, String strFilterModelo, Pageable oPageable);
+    Page<CocheEntity> findByMarcaIgnoreCaseContainingOrModeloIgnoreCaseContainingOrUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContaining(String strFilterMarca, String strFilterModelo, String strFilterNombre, String strFilterApellidos, Pageable oPageable);
 
 }

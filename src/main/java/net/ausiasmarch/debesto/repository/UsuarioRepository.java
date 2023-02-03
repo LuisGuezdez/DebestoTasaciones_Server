@@ -17,7 +17,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     UsuarioEntity findByUsername(String username);
 
                         
-    Page<UsuarioEntity> findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos, String strFilterEmail, Pageable oPageable);
+    Page<UsuarioEntity> findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos, String strFilterEmail, String strFilterSucursal, String strFilterTipo, Pageable oPageable);
 
     //Quedan por hacer más finds por hacer, mirar el de andamio
 
