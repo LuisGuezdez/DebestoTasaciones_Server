@@ -75,13 +75,21 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario with id: " + id + " not found"));
     }
 
-    public Page<UsuarioEntity> getPage(Pageable oPageable, String strFilter) {
+    public Page<UsuarioEntity> getPage(Pageable oPageable, String strFilter, Long id_usertype) {
         //oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
         if (strFilter == null || strFilter.length() == 0) {
-            return oUsuarioRepository.findAll(oPageable);
+            if (id_usertype == null) {
+                return oUsuarioRepository.findAll(oPageable);
+            } else {
+                return oUsuarioRepository.findByTipousuarioId(id_usertype, oPageable);
+            }
         }else{
-            return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(strFilter,strFilter,strFilter,strFilter, strFilter, oPageable);
+            if (id_usertype == null) {
+                return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(strFilter,strFilter,strFilter,strFilter, strFilter, oPageable);
+            } else {
+                return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingAndTipousuarioId( strFilter, strFilter, strFilter, strFilter, id_usertype, oPageable);
+            }
         }
     }
 

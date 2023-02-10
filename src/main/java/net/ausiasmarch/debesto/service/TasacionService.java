@@ -41,19 +41,21 @@ public class TasacionService {
 
     public void validate(TasacionEntity oTasacionEntity) {
         if (oTasacionEntity.getReserva().isBefore(LocalDateTime.now())) {
-            throw new ValidationException("error de validación: la reserva no puede ser anterior a hoy");  
+            throw new ValidationException("error de validación: la reserva no puede ser anterior al dia actual");  
         }
-        UsuarioEntity usuario  = oUsuarioService.get(oTasacionEntity.getUsuario().getId());
-        if (!usuario.getTipousuario().getId().equals(TipoUsuarioHelper.EMPLEADO)) {
-            throw new ValidationException("error de validación: el usuario debe ser un empleado");  
+        if (oTasacionEntity.getUsuario().getId()!=null) {
+            UsuarioEntity usuario  = oUsuarioService.get(oTasacionEntity.getUsuario().getId());
+            if (!usuario.getTipousuario().getId().equals(TipoUsuarioHelper.EMPLEADO)) {
+                throw new ValidationException("error de validación: el usuario debe ser un empleado");  
+            }
         }
         Long sucursalCli = oSucursalRepository.findByNombreIgnoreCaseContaining("cliente").getId();
         if (oTasacionEntity.getSucursal().getId() == sucursalCli) {
-            throw new ValidationException("error de validación: la sucursal no debe ser corresponder a cliente (id: 3)");  
-        }
+            throw new ValidationException("error de validación: la sucursal no debe corresponder a cliente (id: 3)");  
+        }/* 
         if (oTasacionRepository.existsByCocheId(oTasacionEntity.getCoche().getId())) {
             throw new ValidationException("error de validación: el coche seleccionado ya está en tasación");
-        }
+        } */
     }
 
     public TasacionEntity get(Long id) {

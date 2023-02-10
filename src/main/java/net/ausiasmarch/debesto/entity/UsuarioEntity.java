@@ -47,11 +47,16 @@ public class UsuarioEntity {
     @JoinColumn(name = "id_sucursal")
     private SucursalEntity sucursal;
 
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private final List<TasacionEntity> tasaciones;
+
     public UsuarioEntity() {
+        this.tasaciones = new ArrayList<>();
         this.coches = new ArrayList<>();
     }
 
     public UsuarioEntity(Long id) {
+        this.tasaciones = new ArrayList<>();
         this.coches = new ArrayList<>();
         this.id = id;
     }
@@ -122,6 +127,10 @@ public class UsuarioEntity {
 
     public int getCoches() {
         return coches.size();
+    }
+
+    public int getTasaciones() {
+        return tasaciones.size();
     }
 
     @PreRemove
