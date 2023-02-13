@@ -78,6 +78,12 @@ public class UsuarioService {
     public Page<UsuarioEntity> getPage(Pageable oPageable, String strFilter, Long id_usertype) {
         //oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
+        // if (strFilter != null && strFilter.indexOf(" ") + 1 != -1) {
+        //     String nombre = strFilter.substring(0, strFilter.indexOf(" "));
+        //     String apellidos = strFilter.substring(strFilter.indexOf(" ") + 1);
+
+        //     return oUsuarioRepository.findByNombreIgnoreCaseContainingAndApellidosIgnoreCaseContaining(nombre, apellidos, oPageable);
+        // }
         if (strFilter == null || strFilter.length() == 0) {
             if (id_usertype == null) {
                 return oUsuarioRepository.findAll(oPageable);
@@ -86,9 +92,9 @@ public class UsuarioService {
             }
         }else{
             if (id_usertype == null) {
-                return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(strFilter,strFilter,strFilter,strFilter, strFilter, oPageable);
+                return oUsuarioRepository.findByNombreIgnoreCaseContainingAndApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(strFilter,strFilter,strFilter,strFilter, strFilter, oPageable);
             } else {
-                return oUsuarioRepository.findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingAndTipousuarioId( strFilter, strFilter, strFilter, strFilter, id_usertype, oPageable);
+                return oUsuarioRepository.findByNombreIgnoreCaseContainingAndApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingAndTipousuarioId( strFilter, strFilter, strFilter, strFilter, id_usertype, oPageable);
             }
         }
     }

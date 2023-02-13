@@ -16,13 +16,15 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     UsuarioEntity findByUsername(String username);
 
+    Page<UsuarioEntity> findByNombreIgnoreCaseContainingAndApellidosIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos, Pageable oPageable);
+
     Page<UsuarioEntity> findByTipousuarioId(Long id_usertype, Pageable oPageable);
         
-    Page<UsuarioEntity> findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos, String strFilterEmail, String strFilterSucursal, String strFilterTipo, Pageable oPageable);
+    Page<UsuarioEntity> findByNombreIgnoreCaseContainingAndApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrTipousuarioTipoIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos, String strFilterEmail, String strFilterSucursal, String strFilterTipo, Pageable oPageable);
 
-    Page<UsuarioEntity> findByNombreIgnoreCaseContainingOrApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingAndTipousuarioId(String strFilterNombre, String strFilterApellidos, String strFilterEmail, String strFilterSucursal, Long id_usertype, Pageable oPageable);
+    Page<UsuarioEntity> findByNombreIgnoreCaseContainingAndApellidosIgnoreCaseContainingOrEmailIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingAndTipousuarioId(String strFilterNombre, String strFilterApellidos, String strFilterEmail, String strFilterSucursal, Long id_usertype, Pageable oPageable);
 
-    Page<UsuarioEntity> findByTipousuarioIdAndNombreIgnoreCaseContainingOrApellidosIgnoreCaseContaining(Long lTipoUsuario,String strNombre,String strApellido, Pageable oPageable);
+    //Page<UsuarioEntity> findByTipousuarioIdAndNombreIgnoreCaseContainingOrApellidosIgnoreCaseContaining(Long lTipoUsuario,String strNombre,String strApellido, Pageable oPageable);
 
     //Quedan por hacer más finds por hacer, mirar el de andamio
 
