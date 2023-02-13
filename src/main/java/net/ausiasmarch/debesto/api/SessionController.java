@@ -18,10 +18,10 @@ public class SessionController {
     @Autowired
     AuthService oAuthService;
 
-    @GetMapping("")
+    /* @GetMapping("")
     public ResponseEntity<UsuarioEntity> check() {
         return new ResponseEntity<UsuarioEntity>(oAuthService.check(), HttpStatus.OK);
-    }
+    } */
 
     @PostMapping
     public ResponseEntity<String> login(@org.springframework.web.bind.annotation.RequestBody UsuarioBean oUsuarioBean) {

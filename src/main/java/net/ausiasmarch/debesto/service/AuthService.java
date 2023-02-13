@@ -29,14 +29,14 @@ public class AuthService {
         if (oUsuarioBean.getContraseña() != null) {
             UsuarioEntity oUsuarioEntity = oUsuarioRepository.findByUsernameAndContraseña(oUsuarioBean.getUsername(), oUsuarioBean.getContraseña());
             if (oUsuarioEntity != null) {
-                return JwtHelper.generateJWT(oUsuarioBean.getUsername());
+                return JwtHelper.generateJWT(oUsuarioBean.getUsername(), oUsuarioEntity.getTipousuario().getId());
             } else {
                 throw new UnauthorizedException("login or password incorrect");
             }
         } else {
             throw new UnauthorizedException("wrong password");
         }
-    }
+    }/* 
 
     public UsuarioEntity check() {
         System.out.println(oRequest.getParameter("name"));
@@ -47,7 +47,7 @@ public class AuthService {
         } else {
             throw new UnauthorizedException("No active session");
         }
-    }
+    } */
 
     public UsuarioEntity getUser() {
         UsuarioEntity oUsuarioSessionEntity = (UsuarioEntity) oHttpSession.getAttribute("usuario");

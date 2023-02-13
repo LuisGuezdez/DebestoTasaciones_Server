@@ -76,7 +76,7 @@ public class UsuarioService {
     }
 
     public Page<UsuarioEntity> getPage(Pageable oPageable, String strFilter, Long id_usertype) {
-        //oAuthService.OnlyAdmins();
+        oAuthService.OnlyAdmins();
         ValidationHelper.validateRPP(oPageable.getPageSize());
         // if (strFilter != null && strFilter.indexOf(" ") + 1 != -1) {
         //     String nombre = strFilter.substring(0, strFilter.indexOf(" "));
@@ -131,7 +131,7 @@ public class UsuarioService {
     }
 
     public Long generateUsers(Integer amount) {
-        //oAuthService.OnlyAdmins();
+        oAuthService.OnlyAdmins();
         List<UsuarioEntity> userList = new ArrayList<>();
         int i = 0;
         while(i < amount) {
