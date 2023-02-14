@@ -2,6 +2,8 @@ package net.ausiasmarch.debesto.service;
 
 import java.time.LocalDate;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,9 @@ public class CocheService {
 
     @Autowired
     UsuarioRepository oUsuarioRepository;
+
+    @Autowired
+    private HttpServletRequest oRequest;
 
     @Autowired
     AuthService oAuthService;
@@ -68,11 +73,16 @@ public class CocheService {
     //Revisar la manera y la forma de filtrar
     public Page<CocheEntity> getPage(Pageable oPageable, String strFilter) {
         //oAuthService.OnlyAdmins();
+        UsuarioEntity oUsuarioSessionEntity = oUsuarioRepository.findByUsername((String) oRequest.getAttribute("username"));
         ValidationHelper.validateRPP(oPageable.getPageSize());
-        if (strFilter == null || strFilter.length() == 0) {
-            return oCocheRepository.findAll(oPageable);
-        }else{
-            return oCocheRepository.findByMarcaIgnoreCaseContainingOrModeloIgnoreCaseContainingOrUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContaining(strFilter, strFilter, strFilter, strFilter, oPageable);
+        if (oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.CLIENTE)) {
+            return oCocheRepository.findByUsuarioId(oUsuarioSessionEntity.getId(), oPageable);
+        }else {
+            if (strFilter == null || strFilter.length() == 0) {
+                return oCocheRepository.findAll(oPageable);
+            }else{
+                return oCocheRepository.findByMarcaIgnoreCaseContainingOrModeloIgnoreCaseContainingOrUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContaining(strFilter, strFilter, strFilter, strFilter, oPageable);
+            }
         }
     }
 
