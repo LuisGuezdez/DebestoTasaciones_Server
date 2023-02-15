@@ -2,6 +2,8 @@ package net.ausiasmarch.debesto.service;
 
 import java.time.LocalDateTime;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import net.ausiasmarch.debesto.helper.TipoUsuarioHelper;
 import net.ausiasmarch.debesto.helper.ValidationHelper;
 import net.ausiasmarch.debesto.repository.SucursalRepository;
 import net.ausiasmarch.debesto.repository.TasacionRepository;
+import net.ausiasmarch.debesto.repository.UsuarioRepository;
 
 
 @Service
@@ -32,6 +35,12 @@ public class TasacionService {
 
     @Autowired
     UsuarioService oUsuarioService;
+
+    @Autowired
+    private HttpServletRequest oRequest;
+
+    @Autowired
+    UsuarioRepository oUsuarioRepository;
 
     public void validate(Long id) {
         if (!oTasacionRepository.existsById(id)) {
@@ -71,11 +80,17 @@ public class TasacionService {
 
     public Page<TasacionEntity> getPage(Pageable oPageable, String strFilter) {
         //oAuthService.OnlyAdmins();
+        UsuarioEntity oUsuarioSessionEntity = oUsuarioRepository.findByUsername((String) oRequest.getAttribute("username"));
         ValidationHelper.validateRPP(oPageable.getPageSize());
-        if (strFilter == null || strFilter.length() == 0) {
-            return oTasacionRepository.findAll(oPageable);
-        }else{
-            return oTasacionRepository.findByUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContainingOrCocheMarcaIgnoreCaseContainingOrCocheModeloIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrSucursalLocalidadIgnoreCaseContaining(strFilter, strFilter, strFilter, strFilter, strFilter, strFilter, oPageable);
+        if (oUsuarioSessionEntity.getTipousuario().getId().equals(TipoUsuarioHelper.CLIENTE)) {
+            Long cocheId = Long.parseLong(strFilter);
+            return oTasacionRepository.findByCocheId(cocheId, oPageable);
+        }else {
+            if (strFilter == null || strFilter.length() == 0) {
+                return oTasacionRepository.findAll(oPageable);
+            }else{
+                return oTasacionRepository.findByUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContainingOrCocheMarcaIgnoreCaseContainingOrCocheModeloIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrSucursalLocalidadIgnoreCaseContaining(strFilter, strFilter, strFilter, strFilter, strFilter, strFilter, oPageable);
+            }
         }
     }
 

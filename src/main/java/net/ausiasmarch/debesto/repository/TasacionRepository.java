@@ -11,4 +11,6 @@ public interface TasacionRepository extends JpaRepository<TasacionEntity, Long>{
     Page<TasacionEntity> findByUsuarioNombreIgnoreCaseContainingOrUsuarioApellidosIgnoreCaseContainingOrCocheMarcaIgnoreCaseContainingOrCocheModeloIgnoreCaseContainingOrSucursalNombreIgnoreCaseContainingOrSucursalLocalidadIgnoreCaseContaining(String strFilterNombre, String strFilterApellidos,String strFilterMarca, String strFilterModelo, String strFilterSucNombre, String strFilterLocalidad, Pageable oPageable);
 
     boolean existsByCocheId(Long id);
+
+    Page<TasacionEntity> findByCocheId(Long cocheId, Pageable oPageable);
 }
